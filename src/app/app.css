@@ -1,0 +1,29 @@
+.active-link {
+  background-color: #1976d2;
+  color: white !important;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+mat-toolbar {
+  z-index: 2;
+}
+
+mat-sidenav {
+  width: 240px;
+  background: #f3f3f3;
+}
+
+mat-nav-list a {
+  color: #333;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+mat-nav-list a:hover {
+  background-color: #e3e3e3;
+}
+
+.content {
+  padding: 24px;
+}
