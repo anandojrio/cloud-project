@@ -1,4 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --raf-yellow: #fff366;
+  --raf-black: #181818;
+  --raf-white: #ffffff;
+  --raf-accent: #ffdf40;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body, html, app-root {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Montserrat', Arial, 'Segoe UI', sans-serif;
+  background: var(--raf-yellow);
+  color: var(--raf-black);
+}
+
+.raf-shapes-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.raf-shapes-bg div {
+  position: absolute;
+  opacity: 0.15;
+  font-size: 40px;
+}
+
+.snackbar-success {
+  background: #181818 !important;
+  color: #fff366 !important;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.snackbar-error {
+  background: #c62828 !important;
+  color: #fff !important;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+
+.raf-shapes-bg .circle { left: 10vw; top: 20vh; font-size: 60px; }
+.raf-shapes-bg .triangle { right: 12vw; top: 16vh; font-size: 70px; }
+.raf-shapes-bg .square { left: 40vw; bottom: 15vh; font-size: 80px; }
+.raf-shapes-bg .z-shape { right: 7vw; bottom: 24vh; font-size: 60px; }

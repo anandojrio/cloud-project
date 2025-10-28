@@ -1,19 +1,40 @@
-<mat-toolbar color="primary" style="position: sticky; top: 0;">
+<mat-toolbar>
   <button mat-icon-button (click)="sidenav.toggle()" aria-label="Open side nav">
     <mat-icon>menu</mat-icon>
   </button>
-  <span>{{ title }}</span>
+  <span class="toolbar-title">{{ title }}</span>
 </mat-toolbar>
 
 <mat-sidenav-container style="height: calc(100vh - 64px);">
   <mat-sidenav #sidenav mode="side" opened>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/login" routerLinkActive="active-link">Login</a>
-      <a mat-list-item routerLink="/users/add" routerLinkActive="active-link">Add User</a>
-      <a mat-list-item routerLink="/machines/search" routerLinkActive="active-link">Search Machines</a>
-      <a mat-list-item routerLink="/machines/create" routerLinkActive="active-link">Create Machine</a>
-    </mat-nav-list>
-  </mat-sidenav>
+  <mat-nav-list>
+    <a mat-list-item routerLink="/login" routerLinkActive="active-link">
+      <mat-icon matListItemIcon>login</mat-icon>
+      <span matListItemTitle>Login</span>
+    </a>
+
+    <a mat-list-item routerLink="/users" routerLinkActive="active-link">
+      <mat-icon matListItemIcon>people</mat-icon>
+      <span matListItemTitle>Users</span>
+    </a>
+
+    <a mat-list-item routerLink="/users/add" routerLinkActive="active-link">
+      <mat-icon matListItemIcon>person_add</mat-icon>
+      <span matListItemTitle>Add User</span>
+    </a>
+
+    <a mat-list-item routerLink="/machines/search" routerLinkActive="active-link">
+      <mat-icon matListItemIcon>search</mat-icon>
+      <span matListItemTitle>Search Machines</span>
+    </a>
+
+    <a mat-list-item routerLink="/machines/create" routerLinkActive="active-link">
+      <mat-icon matListItemIcon>add_circle</mat-icon>
+      <span matListItemTitle>Create Machine</span>
+    </a>
+  </mat-nav-list>
+</mat-sidenav>
+
 
   <mat-sidenav-content>
     <div class="content">

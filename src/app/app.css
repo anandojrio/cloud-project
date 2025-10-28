@@ -1,29 +1,74 @@
-.active-link {
-  background-color: #1976d2;
-  color: white !important;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
+/* Toolbar styling with black glow border */
 mat-toolbar {
-  z-index: 2;
+  background: var(--raf-yellow) !important;
+  color: var(--raf-black) !important;
+  box-shadow: 0 4px 12px rgba(24, 24, 24, 0.35) !important;
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+  border-bottom: 3px solid var(--raf-black);
+  padding: 0 24px;
 }
 
+/* More spacing between burger menu and title */
+.toolbar-title {
+  color: var(--raf-black) !important;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  margin-left: 24px; /* Added spacing */
+}
+
+/* Burger menu icon */
+.mat-icon-button, .mat-icon {
+  color: var(--raf-black) !important;
+  font-size: 2rem !important;
+}
+
+/* Sidenav with black glow border */
 mat-sidenav {
-  width: 240px;
-  background: #f3f3f3;
+  background: var(--raf-yellow) !important;
+  color: var(--raf-black) !important;
+  font-weight: 700;
+  box-shadow: 4px 0 12px rgba(24, 24, 24, 0.35);
+  border-right: 3px solid var(--raf-black);
 }
 
 mat-nav-list a {
-  color: #333;
-  font-size: 1rem;
-  text-decoration: none;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px; /* a little more gap for clarity */
+  min-height: 52px; /* ensures icons always fit */
+  height: 64px;     /* add height for big icons and touch targets */
+  color: var(--raf-black) !important;
+  font-size: 1.25rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  padding: 0 18px; /* removes vertical padding, keep horizontal */
+  margin: 12px 8px;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
+
+mat-nav-list a mat-icon {
+  color: var(--raf-black) !important;
+  font-size: 2rem;   /* force a bold, large icon size */
+  width: 2.3rem;     /* enough width to not crop */
+  height: 2.3rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 mat-nav-list a:hover {
-  background-color: #e3e3e3;
+  background: var(--raf-accent);
 }
 
-.content {
-  padding: 24px;
+mat-nav-list a.active-link {
+  background: var(--raf-accent);
+  color: var(--raf-black) !important;
+  border-left: 4px solid var(--raf-black);
 }
