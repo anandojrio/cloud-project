@@ -1,1 +1,54 @@
-<p>edit-user works!</p>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="add-user-form">
+  <h2 class="form-title">Измени корисника</h2>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Име</mat-label>
+    <input matInput formControlName="name" required autocomplete="off">
+    <mat-error *ngIf="userForm.get('name')?.hasError('required')">
+      Име је обавезно.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Презиме</mat-label>
+    <input matInput formControlName="surname" required autocomplete="off">
+    <mat-error *ngIf="userForm.get('surname')?.hasError('required')">
+      Презиме је обавезно.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Имејл адреса</mat-label>
+    <input matInput formControlName="email" required type="email" autocomplete="off">
+    <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+      Имејл адреса је обавезна.
+    </mat-error>
+    <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+      Унесите валидан имејл.
+    </mat-error>
+  </mat-form-field>
+
+  <div class="permissions-section">
+    <label class="perm-label">Дозволе (обавезно одабрати бар једну):</label>
+    <div class="permissions-group">
+      <mat-checkbox *ngFor="let perm of permissionsList"
+                    [value]="perm"
+                    (change)="onCheckboxChange($event)"
+                    [checked]="isPermissionChecked(perm)">
+        {{ perm }}
+      </mat-checkbox>
+    </div>
+    <div class="permissions-error"
+         *ngIf="userForm.get('permissions')?.invalid && userForm.get('permissions')?.touched">
+      Изаберите бар једну дозволу.
+    </div>
+  </div>
+
+  <button
+    mat-raised-button
+    type="submit"
+    class="login-button add-user-button"
+>
+    <mat-icon>edit</mat-icon>
+    Сачувај измене
+  </button>
+</form>

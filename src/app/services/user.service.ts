@@ -3,56 +3,72 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../models/user.model';
 import { Permission } from '../models/permission.model';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UserService {
-  // mock admin i obicnog usera
-  private usersSubject = new BehaviorSubject<User[]>([
-    {
-      id: 1,
-      name: 'Admin',
-      surname: 'User',
-      email: 'admin@raf.rs',
-      permissions: Object.values(Permission)
-    },
-    {
-      id: 2,
-      name: 'Student',
-      surname: 'User',
-      email: 'student@raf.rs',
-      permissions: [Permission.READ_USER, Permission.SEARCH_MACHINES]
-    }
-  ]);
+const DEFAULT_USERS = [
+  {
+    id: 1,
+    name: 'Admin',
+    surname: 'User',
+    email: 'admin@raf.rs',
+    permissions: [
+      'create_user', 'read_user', 'update_user', 'delete_user',
+      'search_machines', 'create_machine', 'start_machine',
+      'stop_machine', 'restart_machine', 'destroy_machine',
+      'read_error_messages'
+    ]
+  },
+  {
+    id: 2,
+    name: 'Student',
+    surname: 'User',
+    email: 'student@raf.rs',
+    permissions: ['read_user', 'search_machines']
+  }
+];
 
-  users$ = this.usersSubject.asObservable();
+// user.service.ts
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private LS_KEY = 'users';
+
+  constructor() {
+    // Only seed if localStorage is empty
+    if (!localStorage.getItem(this.LS_KEY)) {
+      localStorage.setItem(this.LS_KEY, JSON.stringify(DEFAULT_USERS));
+    }
+  }
 
   getAll(): Observable<User[]> {
-    return this.users$;
+    const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
+    return of(users);
+  }
+
+  add(user: User): Observable<User> {
+    const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
+    // Assign a new ID (tiny mock)
+    user.id = Date.now();
+    users.push(user);
+    localStorage.setItem(this.LS_KEY, JSON.stringify(users));
+    return of(user);
   }
 
   getById(id: number): Observable<User | undefined> {
-    return of(this.usersSubject.value.find(u => u.id === id));
+    const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
+    return of(users.find((u: { id: number; }) => u.id === id));
   }
 
-  add(user: User): Observable<void> {
-    const users = this.usersSubject.value;
-    const nextId = Math.max(...users.map(u => u.id), 0) + 1;
-    user.id = nextId;
-    this.usersSubject.next([...users, user]);
-    return of();
-  }
-
-  update(user: User): Observable<void> {
-    let users = this.usersSubject.value;
-    users = users.map(u => u.id === user.id ? user : u);
-    this.usersSubject.next(users);
-    return of();
+  update(updatedUser: User): Observable<User> {
+    let users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
+    users = users.map((u: User) => (u.id === updatedUser.id ? updatedUser : u));
+    localStorage.setItem(this.LS_KEY, JSON.stringify(users));
+    return of(updatedUser);
   }
 
   delete(id: number): Observable<void> {
-    const users = this.usersSubject.value.filter(u => u.id !== id);
-    this.usersSubject.next(users);
-    return of();
-  }
+  let users = JSON.parse(localStorage.getItem('users') || '[]');
+  users = users.filter((u: any) => u.id !== id);
+  localStorage.setItem('users', JSON.stringify(users));
+  return of();
 }
+
+}
+
