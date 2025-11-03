@@ -61,3 +61,25 @@ button[mat-icon-button] {
   font-weight: bold;
   font-size: 1.1rem;
 }
+
+.login-button {
+  background: var(--raf-white);
+  color: var(--raf-black) !important;
+  border: 3px solid var(--raf-black);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  transition: all 0.15s;
+  box-shadow: 0 3px 8px rgba(24, 24, 24, 0.15);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.login-button:hover {
+  background: var(--raf-yellow);
+  color: var(--raf-black) !important;
+  box-shadow: 0 4px 12px rgba(24, 24, 24, 0.20);
+  border-color: var(--raf-black);
+}

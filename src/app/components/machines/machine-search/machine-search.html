@@ -1,1 +1,141 @@
-<p>machine-search works!</p>
+<div class="machine-search-wrapper">
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="machine-search-form">
+    <mat-form-field class="search-field" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Machine name">
+    </mat-form-field>
+
+    <mat-form-field class="search-field" appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="statuses" multiple>
+        <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="search-field" appearance="outline">
+      <mat-label>Date from</mat-label>
+      <input matInput [matDatepicker]="pickerFrom" formControlName="from">
+      <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFrom></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="search-field" appearance="outline">
+      <mat-label>Date to</mat-label>
+      <input matInput [matDatepicker]="pickerTo" formControlName="to">
+      <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+      <mat-datepicker #pickerTo></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-flat-button type="submit" [disabled]="searching">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+    <button mat-stroked-button type="button" (click)="clear()">
+      <mat-icon>clear</mat-icon>
+      Clear
+    </button>
+    <button mat-flat-button type="button" (click)="goToCreate()">
+      <mat-icon>add_circle</mat-icon>
+      Create machine
+    </button>
+  </form>
+
+  <mat-table [dataSource]="dataSource" class="machine-table" *ngIf="dataSource.data.length">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let m">{{ m.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let m">
+        <span [ngClass]="m.status === 'RUNNING' ? 'status-running' : 'status-stopped'">
+          {{ m.status }}
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
+      <mat-cell *matCellDef="let m">{{ m.active ? 'Yes' : 'No' }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef>Created</mat-header-cell>
+      <mat-cell *matCellDef="let m">{{ m.createdDate | date:'yyyy-MM-dd' }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdBy">
+      <mat-header-cell *matHeaderCellDef>Creator</mat-header-cell>
+      <mat-cell *matCellDef="let m">{{ m.createdBy }}</mat-cell>
+    </ng-container>
+
+        <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let m" class="action-buttons">
+
+        <!-- Start Button -->
+        <button
+          mat-mini-fab
+          color="primary"
+          *ngIf="canStart(m)"
+          (click)="startMachine(m)"
+          [disabled]="isLoading(m.id)"
+          matTooltip="Start">
+          <mat-icon *ngIf="!isLoading(m.id)">play_arrow</mat-icon>
+          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+        </button>
+
+        <!-- Stop Button -->
+        <button
+          mat-mini-fab
+          color="warn"
+          *ngIf="canStop(m)"
+          (click)="stopMachine(m)"
+          [disabled]="isLoading(m.id)"
+          matTooltip="Stop">
+          <mat-icon *ngIf="!isLoading(m.id)">stop</mat-icon>
+          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+        </button>
+
+        <!-- Restart Button -->
+        <button
+          mat-mini-fab
+          color="accent"
+          *ngIf="canRestart(m)"
+          (click)="restartMachine(m)"
+          [disabled]="isLoading(m.id)"
+          matTooltip="Restart">
+          <mat-icon *ngIf="!isLoading(m.id)">refresh</mat-icon>
+          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+        </button>
+
+        <!-- Destroy Button -->
+        <button
+          mat-mini-fab
+          class="destroy-button"
+          *ngIf="canDestroy()"
+          (click)="destroyMachine(m)"
+          [disabled]="isLoading(m.id)"
+          matTooltip="Destroy">
+          <mat-icon *ngIf="!isLoading(m.id)">delete_forever</mat-icon>
+          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+        </button>
+
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+
+  <div class="empty-message" *ngIf="dataSource.data.length === 0">
+    <ng-container *ngIf="criteriaUsed; else enterCriteria">
+      No machines found for the selected criteria.
+    </ng-container>
+    <ng-template #enterCriteria>
+      Enter search criteria or click "Create machine" to add a new one.
+    </ng-template>
+  </div>
+</div>

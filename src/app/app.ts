@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,20 +8,23 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
+    CommonModule,
     RouterOutlet,
     RouterLink,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatSnackBarModule
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
@@ -28,4 +32,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AppComponent {
   title = 'RAF Cloud';
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
+
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
+
+  logout() {
+    this.authService.logout();
+    this.snackBar.open('Successfully logged out!', 'Close', {
+      duration: 2500,
+      panelClass: 'snackbar-success'
+    });
+    this.router.navigate(['/login']);
+  }
 }

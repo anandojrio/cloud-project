@@ -8,10 +8,11 @@ import { Permission } from '../models/permission.model';
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly LS_USER_KEY = 'currentUser';
   private userSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.userSubject.asObservable();
 
-  // Mock baza podataka usera
+  // Mock database of users
   private mockUsers: Array<{email: string, password: string, user: User}> = [
     {
       email: 'admin@raf.rs',
@@ -37,7 +38,23 @@ export class AuthService {
     }
   ];
 
-  constructor() {}
+  constructor() {
+    // On service init (app startup), restore user from localStorage
+    this.restoreUserFromStorage();
+  }
+
+  private restoreUserFromStorage(): void {
+    const stored = localStorage.getItem(this.LS_USER_KEY);
+    if (stored) {
+      try {
+        const user = JSON.parse(stored);
+        this.userSubject.next(user);
+      } catch (e) {
+        console.error('Failed to parse stored user', e);
+        localStorage.removeItem(this.LS_USER_KEY);
+      }
+    }
+  }
 
   // Login with email and password
   login(email: string, password: string): Observable<boolean> {
@@ -49,6 +66,8 @@ export class AuthService {
         );
 
         if (found) {
+          // Save user to localStorage
+          localStorage.setItem(this.LS_USER_KEY, JSON.stringify(found.user));
           this.userSubject.next(found.user);
           observer.next(true);
         } else {
@@ -61,10 +80,15 @@ export class AuthService {
   }
 
   logout(): void {
+    localStorage.removeItem(this.LS_USER_KEY);
     this.userSubject.next(null);
   }
 
   get currentUser(): User | null {
+    return this.userSubject.value;
+  }
+
+  getCurrentUser(): User | null {
     return this.userSubject.value;
   }
 

@@ -1,1 +1,24 @@
-<p>create-machine works!</p>
+<form [formGroup]="machineForm" (ngSubmit)="onSubmit()" class="add-user-form">
+  <h2 class="form-title">Create a new machine</h2>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Machine Name</mat-label>
+    <input matInput formControlName="name" required autocomplete="off" placeholder="Enter unique machine name">
+    <mat-error *ngIf="machineForm.get('name')?.hasError('required')">
+      Machine name is required.
+    </mat-error>
+    <mat-error *ngIf="machineForm.get('name')?.hasError('minlength')">
+      Name must be at least 3 characters.
+    </mat-error>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    type="submit"
+    class="login-button add-user-button"
+    [disabled]="machineForm.invalid || isLoading">
+    <mat-spinner *ngIf="isLoading" diameter="20" class="button-spinner"></mat-spinner>
+    <mat-icon *ngIf="!isLoading">add_circle</mat-icon>
+    <span *ngIf="!isLoading">Create machine</span>
+  </button>
+</form>

@@ -18,11 +18,11 @@ export const routes: Routes = [
   { path: 'users/add', component: AddUserComponent },
   { path: 'users/edit/:id', component: EditUserComponent },
 
-  { path: 'machines', component: MachineSearchComponent },
+  { path: 'machines/search', component: MachineSearchComponent },
   { path: 'machines/create', component: CreateMachineComponent },
 
   { path: 'errors', component: ErrorHistoryComponent },
 
-  // redirec na login
+  // redirect na login
   { path: '**', redirectTo: '/login' }
 ];

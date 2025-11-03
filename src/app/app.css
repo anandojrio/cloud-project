@@ -72,3 +72,57 @@ mat-nav-list a.active-link {
   color: var(--raf-black) !important;
   border-left: 4px solid var(--raf-black);
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--raf-black);
+  letter-spacing: 1px;
+  background: var(--raf-yellow);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 2px solid var(--raf-black);
+}
+
+.user-icon {
+  font-size: 22px !important;
+  width: 22px !important;
+  height: 22px !important;
+  line-height: 22px !important;
+}
+
+
+.logout-button {
+  background: var(--raf-white) !important;
+  color: var(--raf-black) !important;
+  border: 3px solid var(--raf-black) !important;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  font-size: 0.95rem;
+  padding: 6px 18px !important;
+  transition: all 0.15s;
+}
+
+.logout-button:hover {
+  background: #ffcdd2 !important;
+  border-color: #c62828 !important;
+}
+
+.logout-button mat-icon {
+  margin-right: 6px;
+}
+

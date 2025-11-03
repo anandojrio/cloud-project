@@ -1,34 +1,34 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="add-user-form">
-  <h2 class="form-title">Измени корисника</h2>
+  <h2 class="form-title">Edit user</h2>
   <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Име</mat-label>
+    <mat-label>Name</mat-label>
     <input matInput formControlName="name" required autocomplete="off">
     <mat-error *ngIf="userForm.get('name')?.hasError('required')">
-      Име је обавезно.
+      Name is required.
     </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Презиме</mat-label>
+    <mat-label>Lastname</mat-label>
     <input matInput formControlName="surname" required autocomplete="off">
     <mat-error *ngIf="userForm.get('surname')?.hasError('required')">
-      Презиме је обавезно.
+      Lastname is required.
     </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Имејл адреса</mat-label>
+    <mat-label>Email</mat-label>
     <input matInput formControlName="email" required type="email" autocomplete="off">
     <mat-error *ngIf="userForm.get('email')?.hasError('required')">
-      Имејл адреса је обавезна.
+      Email is required.
     </mat-error>
     <mat-error *ngIf="userForm.get('email')?.hasError('email')">
-      Унесите валидан имејл.
+      Enter a valid email adress.
     </mat-error>
   </mat-form-field>
 
   <div class="permissions-section">
-    <label class="perm-label">Дозволе (обавезно одабрати бар једну):</label>
+    <label class="perm-label">Permissions (choose at least one):</label>
     <div class="permissions-group">
       <mat-checkbox *ngFor="let perm of permissionsList"
                     [value]="perm"
@@ -37,9 +37,8 @@
         {{ perm }}
       </mat-checkbox>
     </div>
-    <div class="permissions-error"
-         *ngIf="userForm.get('permissions')?.invalid && userForm.get('permissions')?.touched">
-      Изаберите бар једну дозволу.
+    <div class="permissions-error" *ngIf="userForm.get('permissions')?.invalid && userForm.get('permissions')?.touched">
+      Choose at least one permission.
     </div>
   </div>
 
@@ -47,8 +46,8 @@
     mat-raised-button
     type="submit"
     class="login-button add-user-button"
->
+    [disabled]="userForm.invalid">
     <mat-icon>edit</mat-icon>
-    Сачувај измене
+    Save changes
   </button>
 </form>

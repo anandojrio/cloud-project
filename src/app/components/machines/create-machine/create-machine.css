@@ -1,0 +1,72 @@
+.add-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 440px;
+  margin: 64px auto;
+  padding: 35px 24px;
+  background: var(--raf-yellow);
+  border-radius: 18px;
+  border: 3px solid var(--raf-black);
+  box-shadow: 0 8px 26px #18181833, 0 2px 8px #00000022;
+  align-items: stretch;
+}
+
+.form-title {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: var(--raf-black);
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login-button {
+  width: 100%;
+  background: var(--raf-white);
+  color: var(--raf-black) !important;
+  border: 3px solid var(--raf-black);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  transition: all 0.15s;
+  box-shadow: 0 3px 8px rgba(24, 24, 24, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-button:hover {
+  background: var(--raf-yellow);
+  box-shadow: 0 4px 12px rgba(24, 24, 24, 0.25);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button-spinner {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.snackbar-success {
+  background: #181818 !important;
+  color: #fff366 !important;
+  font-weight: bold;
+  font-size: 1.11rem;
+}
+
+.snackbar-error {
+  background: #c62828 !important;
+  color: #fff !important;
+  font-weight: bold;
+  font-size: 1.11rem;
+}

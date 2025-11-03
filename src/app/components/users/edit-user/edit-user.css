@@ -1,0 +1,115 @@
+.add-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 440px;
+  margin: 64px auto;
+  padding: 35px 24px;
+  background: var(--raf-yellow);
+  border-radius: 18px;
+  border: 3px solid var(--raf-black);
+  box-shadow: 0 8px 26px #18181833, 0 2px 8px #00000022;
+  align-items: stretch;
+}
+
+.form-title {
+  font-size: 2.1rem;
+  font-weight: 900;
+  color: var(--raf-black);
+  letter-spacing: 1.5px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.permissions-section {
+  background: #fffbe7;
+  border: 2px solid #ffe344;
+  border-radius: 10px;
+  padding: 18px 12px;
+  margin: 10px 0 0 0;
+  box-shadow: 0 1px 6px #1818181a;
+}
+
+.perm-label {
+  font-size: 1.09rem;
+  font-weight: bold;
+  color: #181818;
+  margin-bottom: 5px;
+}
+
+.permissions-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 12px;
+  margin-top: 7px;
+  margin-bottom: 3px;
+}
+
+mat-checkbox {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--raf-black);
+  background: transparent;
+}
+
+.permissions-error {
+  color: #c62828;
+  font-size: 13.5px;
+  font-weight: bold;
+  margin-top: 9px;
+}
+
+.submit-btn {
+  font-size: 1.14rem;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+  border-radius: 8px;
+  background: var(--raf-black);
+  color: var(--raf-yellow) !important;
+  margin-top: 16px;
+  border: 2.5px solid var(--raf-black);
+  transition: background 0.18s;
+}
+
+.submit-btn:hover {
+  background: #fff366;
+  color: #181818 !important;
+  border-color: #181818;
+}
+
+.snackbar-success {
+  background: #181818 !important;
+  color: #fff366 !important;
+  font-weight: bold;
+  font-size: 1.11rem;
+}
+
+.snackbar-error {
+  background: #c62828 !important;
+  color: #fff !important;
+  font-weight: bold;
+  font-size: 1.11rem;
+}
+
+/* Login button with black border */
+.login-button {
+  width: 100%;
+  background: var(--raf-white);
+  color: var(--raf-black) !important;
+  border: 3px solid var(--raf-black);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  transition: all 0.15s;
+  box-shadow: 0 3px 8px rgba(24, 24, 24, 0.15);
+}
+
+.login-button:hover {
+  background: var(--raf-yellow);
+  box-shadow: 0 4px 12px rgba(24, 24, 24, 0.25);
+}

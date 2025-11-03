@@ -1,11 +1,15 @@
+import { Permission } from './permission.model';
 
-export type MachineStatus = 'RUNNING' | 'STOPPED' | 'PAUSED' | 'ERROR';
+export enum MachineStatus {
+  RUNNING = 'RUNNING',
+  STOPPED = 'STOPPED'
+}
 
 export interface Machine {
   id: number;
   name: string;
   status: MachineStatus;
-  ownerId: number;      // user.id od vlasnika
-  allowedUserIds: number[];  // ids od usera koji mogu da vide ili kontrolisu
-  createdAt: Date;
+  active: boolean;
+  createdBy: string;
+  createdDate: Date;
 }

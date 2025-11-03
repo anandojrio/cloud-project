@@ -10,10 +10,17 @@ const DEFAULT_USERS = [
     surname: 'User',
     email: 'admin@raf.rs',
     permissions: [
-      'create_user', 'read_user', 'update_user', 'delete_user',
-      'search_machines', 'create_machine', 'start_machine',
-      'stop_machine', 'restart_machine', 'destroy_machine',
-      'read_error_messages'
+      Permission.CREATE_USER,
+      Permission.READ_USER,
+      Permission.UPDATE_USER,
+      Permission.DELETE_USER,
+      Permission.SEARCH_MACHINES,
+      Permission.CREATE_MACHINE,
+      Permission.START_MACHINE,
+      Permission.STOP_MACHINE,
+      Permission.RESTART_MACHINE,
+      Permission.DESTROY_MACHINE,
+      Permission.READ_ERROR_MESSAGES
     ]
   },
   {
@@ -21,9 +28,13 @@ const DEFAULT_USERS = [
     name: 'Student',
     surname: 'User',
     email: 'student@raf.rs',
-    permissions: ['read_user', 'search_machines']
+    permissions: [
+      Permission.READ_USER,
+      Permission.SEARCH_MACHINES
+    ]
   }
 ];
+
 
 // user.service.ts
 @Injectable({ providedIn: 'root' })
@@ -38,18 +49,31 @@ export class UserService {
   }
 
   getAll(): Observable<User[]> {
-    const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
-    return of(users);
-  }
+  const users: User[] = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
+  // Remove any accidental duplicate admin/student (by email!)
+  const filtered = users.filter(
+    u => u.email !== 'admin@raf.rs' && u.email !== 'student@raf.rs'
+  );
+  // Always return admin and student first
+  return of([...DEFAULT_USERS, ...filtered]);
+}
+
 
   add(user: User): Observable<User> {
-    const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
-    // Assign a new ID (tiny mock)
-    user.id = Date.now();
-    users.push(user);
-    localStorage.setItem(this.LS_KEY, JSON.stringify(users));
-    return of(user);
+  if (
+    user.email === 'admin@raf.rs' ||
+    user.email === 'student@raf.rs'
+  ) {
+    // Optionally throw or return error observable
+    return of(null as any);
   }
+  const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
+  user.id = Date.now();
+  users.push(user);
+  localStorage.setItem(this.LS_KEY, JSON.stringify(users));
+  return of(user);
+}
+
 
   getById(id: number): Observable<User | undefined> {
     const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');

@@ -7,11 +7,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 import { UserService } from '../../../services/user.service';
 import { Permission } from '../../../models/permission.model';
 import { User } from '../../../models/user.model';
-import { MatIcon } from "@angular/material/icon";
-import {ReactiveFormsModule} from '@angular/forms'
 
 @Component({
   selector: 'app-edit-user',
@@ -20,14 +20,14 @@ import {ReactiveFormsModule} from '@angular/forms'
   standalone: true,
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
     MatSnackBarModule,
-    MatIcon,
-    ReactiveFormsModule
-]
+    MatIcon
+  ]
 })
 export class EditUserComponent implements OnInit {
   permissionsList = Object.values(Permission);
@@ -51,9 +51,9 @@ export class EditUserComponent implements OnInit {
 
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
-this.userId = idParam ? +idParam : 0;
+    this.userId = idParam ? +idParam : 0;
 
-    this.userService.getById(this.userId).subscribe(user => {
+    this.userService.getById(this.userId).subscribe((user: User | undefined) => {
       if (!user) {
         this.snackBar.open('Корисник није пронађен!', 'Затвори', {
           panelClass: 'snackbar-error',
@@ -70,7 +70,7 @@ this.userId = idParam ? +idParam : 0;
       });
       // Patch permissions - checkboxes
       const permsFormArray = this.userForm.get('permissions') as FormArray;
-      user.permissions.forEach((perm: string) => {
+      user.permissions.forEach((perm: Permission) => {
         permsFormArray.push(this.fb.control(perm));
       });
       permsFormArray.markAsTouched();
@@ -107,6 +107,7 @@ this.userId = idParam ? +idParam : 0;
       id: this.userId,
       ...this.userForm.value
     };
+
     this.userService.update(updatedUser).subscribe({
       next: () => {
         this.snackBar.open('Корисник је ажуриран!', 'Затвори', {

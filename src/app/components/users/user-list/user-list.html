@@ -1,7 +1,7 @@
 <div class="user-list-container">
   <div class="user-list-header">
     <h2>Users</h2>
-    <button mat-raised-button color="primary" (click)="addUser()" *ngIf="authService.hasPermission(Permission.CREATE_USER)"
+    <button mat-raised-button color="primary" class="login-button add-user-button" (click)="addUser()" *ngIf="authService.hasPermission(Permission.CREATE_USER)"
 >
       <mat-icon>person_add</mat-icon> Add User
     </button>
