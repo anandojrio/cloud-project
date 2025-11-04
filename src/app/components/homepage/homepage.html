@@ -1,0 +1,19 @@
+<div class="homepage-container">
+  <h1>Welcome to RAF Cloud</h1>
+  <p>
+    RAF Cloud is a modern cloud infrastructure manager designed for rapid team collaboration, secure user management, and efficient machine control. Here you can:
+  </p>
+  <ul>
+    <li>Manage users and their roles for secure access.</li>
+    <li>Create, start, stop, and destroy virtual machines easily.</li>
+    <li>View error logs and operation histories.</li>
+    <li>Enjoy a visually intuitive and consistent experience.</li>
+  </ul>
+  <p *ngIf="authService.isAuthenticated()">
+    You are logged in as <strong>{{ authService.currentUser?.name }} {{ authService.currentUser?.surname }}</strong> ({{ authService.currentUser?.email }}).
+    Use the navigation sidebar to manage users or machines, or check logs.
+  </p>
+  <p *ngIf="!authService.isAuthenticated()">
+    Please log in to access the full feature set.
+  </p>
+</div>

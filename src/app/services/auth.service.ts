@@ -82,6 +82,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.LS_USER_KEY);
     this.userSubject.next(null);
+
   }
 
   get currentUser(): User | null {

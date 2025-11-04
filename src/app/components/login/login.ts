@@ -65,7 +65,7 @@ export class LoginComponent {
           duration: 2000,
           panelClass: ['snackbar-success']
         });
-        this.router.navigate(['/machines/search']);
+        this.router.navigate(['/home']);
       } else {
         this.snackBar.open('Invalid email or password.', 'Close', {
           duration: 3500,

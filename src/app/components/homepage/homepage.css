@@ -1,0 +1,20 @@
+.homepage-container {
+  max-width: 500px;
+  margin: 80px auto 0 auto;
+  background: var(--raf-yellow, #fff366);
+  padding: 36px 30px 28px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px #18181833, 0 1px 6px #1818181a;
+  text-align: center;
+}
+.homepage-container h1 {
+  color: var(--raf-black, #181818);
+  font-weight: 900;
+  margin-bottom: 18px;
+  font-size: 2.4rem;
+}
+.homepage-container p {
+  color: #262626;
+  font-size: 1.15rem;
+  margin-top: 12px;
+}

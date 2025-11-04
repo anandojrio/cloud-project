@@ -8,10 +8,12 @@ import { AddUserComponent } from './components/users/add-user/add-user';
 import { UserListComponent } from './components/users/user-list/user-list';
 import { EditUserComponent } from './components/users/edit-user/edit-user';
 import { ErrorHistoryComponent } from './components/errors/error-history/error-history';
+import { HomePageComponent } from './components/homepage/homepage';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 
+  { path: 'home', component: HomePageComponent },
   { path: 'login', component: LoginComponent },
 
   { path: 'users', component: UserListComponent },
@@ -23,6 +25,5 @@ export const routes: Routes = [
 
   { path: 'errors', component: ErrorHistoryComponent },
 
-  // redirect na login
-  { path: '**', redirectTo: '/login' }
+  { path: '**', redirectTo: '/home' }
 ];
