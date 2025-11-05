@@ -36,13 +36,12 @@ const DEFAULT_USERS = [
 ];
 
 
-// user.service.ts
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private LS_KEY = 'users';
 
   constructor() {
-    // Only seed if localStorage is empty
+    // seed ako je localStorage prazna
     if (!localStorage.getItem(this.LS_KEY)) {
       localStorage.setItem(this.LS_KEY, JSON.stringify(DEFAULT_USERS));
     }
@@ -50,11 +49,11 @@ export class UserService {
 
   getAll(): Observable<User[]> {
   const users: User[] = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
-  // Remove any accidental duplicate admin/student (by email!)
+  // uklanjanje duplikata (po emajlu)
   const filtered = users.filter(
     u => u.email !== 'admin@raf.rs' && u.email !== 'student@raf.rs'
   );
-  // Always return admin and student first
+  // uvek vrati prvo admina i studenta
   return of([...DEFAULT_USERS, ...filtered]);
 }
 
@@ -64,7 +63,6 @@ export class UserService {
     user.email === 'admin@raf.rs' ||
     user.email === 'student@raf.rs'
   ) {
-    // Optionally throw or return error observable
     return of(null as any);
   }
   const users = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');

@@ -10,7 +10,6 @@
 
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <!-- Email Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
           <input
@@ -26,7 +25,6 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Password Field -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
           <input
@@ -72,7 +70,7 @@
           </span>
         </button>
 
-        <!-- Demo Credentials Info -->
+        <!-- Demo Credentials -->
         <div class="demo-info">
           <p><strong>Demo useri:</strong></p>
           <p>Admin: admin@raf.rs / admin123</p>

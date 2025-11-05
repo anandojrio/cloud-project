@@ -1,7 +1,7 @@
 
 export interface ErrorLog {
   id: number;
-  machineId: number;    // Related machine
+  machineId: number;
   message: string;
   timestamp: Date;
   severity: 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';

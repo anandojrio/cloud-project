@@ -22,7 +22,7 @@ export class AuthService {
         name: 'Admin',
         surname: 'User',
         email: 'admin@raf.rs',
-        permissions: Object.values(Permission) // All permissions
+        permissions: Object.values(Permission) // sve permissions
       }
     },
     {
@@ -56,9 +56,8 @@ export class AuthService {
     }
   }
 
-  // Login with email and password
   login(email: string, password: string): Observable<boolean> {
-    // Simulate network delay
+    // Simulanje delaya
     return new Observable(observer => {
       setTimeout(() => {
         const found = this.mockUsers.find(
@@ -75,7 +74,7 @@ export class AuthService {
           observer.next(false);
         }
         observer.complete();
-      }, 500); // simulate 500ms delay
+      }, 500); // 500ms delay
     });
   }
 

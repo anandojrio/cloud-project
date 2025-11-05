@@ -57,7 +57,7 @@ export class CreateMachineComponent {
 
     const name = this.machineForm.value.name.trim();
 
-    // Check uniqueness
+    // provera autenticnosti
     this.machineService.getAll().subscribe(machines => {
       const exists = machines.some(m => m.name.toLowerCase() === name.toLowerCase());
       if (exists) {
@@ -68,14 +68,14 @@ export class CreateMachineComponent {
         return;
       }
 
-      // Create machine
+      // pravi novu masinu
       this.isLoading = true;
       const currentUser = this.authService.currentUser;
       const newMachine = {
         name,
         status: MachineStatus.STOPPED,
         active: true,
-        createdBy: currentUser?.email || 'unknown',
+        createdBy: currentUser?.email || 'unknown', // ako je korisnik ulogovan uzima ime
         createdDate: new Date()
       };
 

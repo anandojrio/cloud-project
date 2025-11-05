@@ -62,13 +62,13 @@ export class EditUserComponent implements OnInit {
         this.router.navigate(['/users']);
         return;
       }
-      // Patch fields (name, surname, email)
+      // Patch fields
       this.userForm.patchValue({
         name: user.name,
         surname: user.surname,
         email: user.email
       });
-      // Patch permissions - checkboxes
+      // Patch permissions - checkboxe
       const permsFormArray = this.userForm.get('permissions') as FormArray;
       user.permissions.forEach((perm: Permission) => {
         permsFormArray.push(this.fb.control(perm));
