@@ -1,1 +1,43 @@
-<p>error-history works!</p>
+<div class="error-history-wrapper">
+  <h2 class="page-title">Error History</h2>
+
+  <mat-table [dataSource]="errors" class="error-table" *ngIf="errors.length > 0">
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef>Timestamp</mat-header-cell>
+      <mat-cell *matCellDef="let error">{{ error.timestamp | date:'yyyy-MM-dd HH:mm' }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="machineName">
+      <mat-header-cell *matHeaderCellDef>Machine</mat-header-cell>
+      <mat-cell *matCellDef="let error">{{ error.machineName }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operation">
+      <mat-header-cell *matHeaderCellDef>Operation</mat-header-cell>
+      <mat-cell *matCellDef="let error">
+        <span class="operation-badge">{{ error.operation | uppercase }}</span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="statusAtError">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let error">
+        <span [ngClass]="error.statusAtError === 'RUNNING' ? 'status-running' : 'status-stopped'">
+          {{ error.statusAtError }}
+        </span>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="message">
+      <mat-header-cell *matHeaderCellDef>Error Message</mat-header-cell>
+      <mat-cell *matCellDef="let error">{{ error.message }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+
+  <div *ngIf="errors.length === 0" class="empty-message">
+    No errors found for your machines.
+  </div>
+</div>

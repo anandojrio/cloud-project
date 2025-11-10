@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router, RouterOutlet, RouterLink } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, Event, NavigationCancel } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -37,7 +37,16 @@ export class AppComponent {
     public authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationCancel) {
+        this.snackBar.open('You do not have permission to access this page.', 'Close', {
+          duration: 3500,
+          panelClass: 'snackbar-error'
+        });
+      }
+    });
+  }
 
   logout() {
     this.authService.logout();

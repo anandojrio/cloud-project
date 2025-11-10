@@ -22,6 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ScheduleDialogComponent } from '../schedule-action/schedule-action';
 
 @Component({
   selector: 'app-machine-search',
@@ -223,4 +224,31 @@ export class MachineSearchComponent implements OnInit {
       this.dataSource.data = [...data];
     }
   }
+
+  canSchedule(machine: Machine): boolean {
+  // Show schedule button only if user can do at least one action on this machine
+  return this.canStart(machine) || this.canStop(machine) || this.canRestart(machine) || this.canDestroy();
+}
+
+
+  openScheduleDialog(machine: Machine): void {
+  const dialogRef = this.dialog.open(ScheduleDialogComponent, {
+    width: '400px',
+    data: { machine }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // Handle the scheduled action
+      console.log('Scheduled:', result);
+      this.snackBar.open(
+        `${result.action.toUpperCase()} scheduled for ${machine.name} on ${result.date.toLocaleDateString()} at ${result.time}`,
+        'Close',
+        { duration: 3500, panelClass: 'snackbar-success' }
+      );
+
+      // TODO: Save schedule to service/localStorage if needed
+    }
+  });
+}
 }

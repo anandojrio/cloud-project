@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { Permission } from '../../../models/permission.model';
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatIcon } from "@angular/material/icon";
 
 @Component({
@@ -26,7 +26,7 @@ import { MatIcon } from "@angular/material/icon";
     MatSnackBarModule,
     ReactiveFormsModule,
     MatIcon
-]
+  ]
 })
 export class AddUserComponent {
   permissionsList = Object.values(Permission);
@@ -42,6 +42,7 @@ export class AddUserComponent {
       name: ['', Validators.required],
       surname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       permissions: this.fb.array([], Validators.required)
     });
   }
@@ -59,7 +60,7 @@ export class AddUserComponent {
 
   onSubmit() {
     if (this.userForm.invalid) {
-      this.snackBar.open('Сва поља морају бити попуњена и бар једна дозвола изабрана.', 'Затвори', {
+      this.snackBar.open('All fields must be filled and at least one permission chosen.', 'Close', {
         panelClass: 'snackbar-error',
         duration: 3000
       });
@@ -74,14 +75,14 @@ export class AddUserComponent {
 
     this.userService.add(user).subscribe({
       next: () => {
-        this.snackBar.open('Корисник је успешно додат!', 'Затвори', {
+        this.snackBar.open('User added successfully!', 'Close', {
           panelClass: 'snackbar-success',
           duration: 2500
         });
         this.router.navigate(['/users']);
       },
       error: () => {
-        this.snackBar.open('Дошло је до грешке приликом додавања корисника.', 'Затвори', {
+        this.snackBar.open('Error adding user.', 'Close', {
           panelClass: 'snackbar-error',
           duration: 3000
         });

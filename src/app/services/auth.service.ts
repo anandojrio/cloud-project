@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { Permission } from '../models/permission.model';
 
@@ -12,7 +11,12 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.userSubject.asObservable();
 
-  // Mock database of users
+  // Optional for reactive guards - only needed if you want observable guards
+  public isAuthenticated$ = this.currentUser$.pipe(
+    // Map to boolean: user is present
+    map(user => !!user)
+  );
+
   private mockUsers: Array<{email: string, password: string, user: User}> = [
     {
       email: 'admin@raf.rs',
@@ -22,7 +26,7 @@ export class AuthService {
         name: 'Admin',
         surname: 'User',
         email: 'admin@raf.rs',
-        permissions: Object.values(Permission) // sve permissions
+        permissions: Object.values(Permission) // All permissions
       }
     },
     {
@@ -33,13 +37,12 @@ export class AuthService {
         name: 'Student',
         surname: 'User',
         email: 'student@raf.rs',
-        permissions: [Permission.READ_USER, Permission.SEARCH_MACHINES]
+        permissions: [Permission.READ_USER, Permission.SEARCH_MACHINES, Permission.READ_ERROR_MESSAGES, Permission.CREATE_MACHINE]
       }
     }
   ];
 
   constructor() {
-    // On service init (app startup), restore user from localStorage
     this.restoreUserFromStorage();
   }
 
@@ -57,7 +60,6 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<boolean> {
-    // Simulanje delaya
     return new Observable(observer => {
       setTimeout(() => {
         const found = this.mockUsers.find(
@@ -65,7 +67,6 @@ export class AuthService {
         );
 
         if (found) {
-          // Save user to localStorage
           localStorage.setItem(this.LS_USER_KEY, JSON.stringify(found.user));
           this.userSubject.next(found.user);
           observer.next(true);
@@ -74,21 +75,16 @@ export class AuthService {
           observer.next(false);
         }
         observer.complete();
-      }, 500); // 500ms delay
+      }, 500);
     });
   }
 
   logout(): void {
     localStorage.removeItem(this.LS_USER_KEY);
     this.userSubject.next(null);
-
   }
 
   get currentUser(): User | null {
-    return this.userSubject.value;
-  }
-
-  getCurrentUser(): User | null {
     return this.userSubject.value;
   }
 

@@ -1,12 +1,12 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="add-user-form">
   <h2 class="form-title">Add a new user</h2>
+
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Name</mat-label>
     <input matInput formControlName="name" required autocomplete="off">
     <mat-error *ngIf="userForm.get('name')?.hasError('required')">
-  Name is required.
-</mat-error>
-
+      Name is required.
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="full-width">
@@ -24,7 +24,18 @@
       Email is required.
     </mat-error>
     <mat-error *ngIf="userForm.get('email')?.hasError('email')">
-      Enter a valid email adress.
+      Enter a valid email address.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Password</mat-label>
+    <input matInput formControlName="password" required type="password" autocomplete="off" minlength="6">
+    <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+      Password is required.
+    </mat-error>
+    <mat-error *ngIf="userForm.get('password')?.hasError('minlength')">
+      Password must be at least 6 characters.
     </mat-error>
   </mat-form-field>
 
@@ -32,11 +43,10 @@
     <label class="perm-label">Permissions (choose at least one):</label>
     <div class="permissions-group">
       <mat-checkbox *ngFor="let perm of permissionsList"
-              [value]="perm"
-              (change)="onCheckboxChange($event)">
-  {{ perm }}
-</mat-checkbox>
-
+          [value]="perm"
+          (change)="onCheckboxChange($event)">
+        {{ perm }}
+      </mat-checkbox>
     </div>
     <div class="permissions-error" *ngIf="userForm.get('permissions')?.invalid && userForm.get('permissions')?.touched">
       Choose at least one permission.
@@ -44,12 +54,11 @@
   </div>
 
   <button
-  mat-raised-button
-  type="submit"
-  class="login-button add-user-button"
-  [disabled]="userForm.invalid">
-  <mat-icon>person_add</mat-icon>
-  Add user
-</button>
-
+    mat-raised-button
+    type="submit"
+    class="login-button add-user-button"
+    [disabled]="userForm.invalid">
+    <mat-icon>person_add</mat-icon>
+    Add user
+  </button>
 </form>

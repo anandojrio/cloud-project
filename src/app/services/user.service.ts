@@ -30,7 +30,9 @@ const DEFAULT_USERS = [
     email: 'student@raf.rs',
     permissions: [
       Permission.READ_USER,
-      Permission.SEARCH_MACHINES
+      Permission.SEARCH_MACHINES,
+      Permission.READ_ERROR_MESSAGES,
+      Permission.CREATE_MACHINE
     ]
   }
 ];

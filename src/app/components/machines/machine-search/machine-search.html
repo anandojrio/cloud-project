@@ -71,59 +71,72 @@
     </ng-container>
 
         <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-      <mat-cell *matCellDef="let m" class="action-buttons">
+  <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+  <mat-cell *matCellDef="let m" class="action-buttons">
 
-        <!-- Start Button -->
-        <button
-          mat-mini-fab
-          color="primary"
-          *ngIf="canStart(m)"
-          (click)="startMachine(m)"
-          [disabled]="isLoading(m.id)"
-          matTooltip="Start">
-          <mat-icon *ngIf="!isLoading(m.id)">play_arrow</mat-icon>
-          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
-        </button>
+    <!-- Start Button -->
+    <button
+      mat-mini-fab
+      color="primary"
+      *ngIf="canStart(m)"
+      (click)="startMachine(m)"
+      [disabled]="isLoading(m.id)"
+      matTooltip="Start">
+      <mat-icon *ngIf="!isLoading(m.id)">play_arrow</mat-icon>
+      <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+    </button>
 
-        <!-- Stop Button -->
-        <button
-          mat-mini-fab
-          color="warn"
-          *ngIf="canStop(m)"
-          (click)="stopMachine(m)"
-          [disabled]="isLoading(m.id)"
-          matTooltip="Stop">
-          <mat-icon *ngIf="!isLoading(m.id)">stop</mat-icon>
-          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
-        </button>
+    <!-- Stop Button -->
+    <button
+      mat-mini-fab
+      color="warn"
+      *ngIf="canStop(m)"
+      (click)="stopMachine(m)"
+      [disabled]="isLoading(m.id)"
+      matTooltip="Stop">
+      <mat-icon *ngIf="!isLoading(m.id)">stop</mat-icon>
+      <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+    </button>
 
-        <!-- Restart Button -->
-        <button
-          mat-mini-fab
-          color="accent"
-          *ngIf="canRestart(m)"
-          (click)="restartMachine(m)"
-          [disabled]="isLoading(m.id)"
-          matTooltip="Restart">
-          <mat-icon *ngIf="!isLoading(m.id)">refresh</mat-icon>
-          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
-        </button>
+    <!-- Restart Button -->
+    <button
+      mat-mini-fab
+      color="accent"
+      *ngIf="canRestart(m)"
+      (click)="restartMachine(m)"
+      [disabled]="isLoading(m.id)"
+      matTooltip="Restart">
+      <mat-icon *ngIf="!isLoading(m.id)">refresh</mat-icon>
+      <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+    </button>
 
-        <!-- Destroy Button -->
-        <button
-          mat-mini-fab
-          class="destroy-button"
-          *ngIf="canDestroy()"
-          (click)="destroyMachine(m)"
-          [disabled]="isLoading(m.id)"
-          matTooltip="Destroy">
-          <mat-icon *ngIf="!isLoading(m.id)">delete_forever</mat-icon>
-          <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
-        </button>
+    <!-- Destroy Button -->
+    <button
+      mat-mini-fab
+      class="destroy-button"
+      *ngIf="canDestroy()"
+      (click)="destroyMachine(m)"
+      [disabled]="isLoading(m.id)"
+      matTooltip="Destroy">
+      <mat-icon *ngIf="!isLoading(m.id)">delete_forever</mat-icon>
+      <mat-spinner *ngIf="isLoading(m.id)" diameter="24"></mat-spinner>
+    </button>
 
-      </mat-cell>
-    </ng-container>
+    <!-- Schedule Button -->
+<button
+  mat-mini-fab
+  color="accent"
+  *ngIf="canSchedule(m)"
+  (click)="openScheduleDialog(m)"
+  [disabled]="isLoading(m.id)"
+  matTooltip="Schedule">
+  <mat-icon>schedule</mat-icon>
+</button>
+
+
+  </mat-cell>
+</ng-container>
+
 
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

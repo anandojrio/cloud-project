@@ -1,8 +1,13 @@
-import { Permission } from './permission.model';
-
 export enum MachineStatus {
   RUNNING = 'RUNNING',
   STOPPED = 'STOPPED'
+}
+
+export interface MachineError {
+  timestamp: Date;
+  operation: 'start' | 'stop' | 'restart' | 'destroy';
+  message: string;
+  statusAtError: MachineStatus;
 }
 
 export interface Machine {
@@ -12,4 +17,6 @@ export interface Machine {
   active: boolean;
   createdBy: string;
   createdDate: Date;
+  errors?: MachineError[];
 }
+
