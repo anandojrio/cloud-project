@@ -11,9 +11,8 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.userSubject.asObservable();
 
-  // Optional for reactive guards - only needed if you want observable guards
   public isAuthenticated$ = this.currentUser$.pipe(
-    // Map to boolean: user is present
+
     map(user => !!user)
   );
 
@@ -26,7 +25,7 @@ export class AuthService {
         name: 'Admin',
         surname: 'User',
         email: 'admin@raf.rs',
-        permissions: Object.values(Permission) // All permissions
+        permissions: Object.values(Permission) // all permissions
       }
     },
     {
@@ -37,6 +36,7 @@ export class AuthService {
         name: 'Student',
         surname: 'User',
         email: 'student@raf.rs',
+        // ovde menjati fr, a user service za tabelu
         permissions: [Permission.READ_USER, Permission.SEARCH_MACHINES, Permission.READ_ERROR_MESSAGES, Permission.CREATE_MACHINE]
       }
     }
@@ -46,6 +46,7 @@ export class AuthService {
     this.restoreUserFromStorage();
   }
 
+  // za retartovanje
   private restoreUserFromStorage(): void {
     const stored = localStorage.getItem(this.LS_USER_KEY);
     if (stored) {
@@ -84,6 +85,7 @@ export class AuthService {
     this.userSubject.next(null);
   }
 
+  // trenutni korisnik
   get currentUser(): User | null {
     return this.userSubject.value;
   }
@@ -97,6 +99,7 @@ export class AuthService {
     return !!user && user.permissions.includes(permission);
   }
 
+  // za gresku pri logovanju i odlazak na homepage
   hasAnyPermission(permissions: Permission[]): boolean {
     return permissions.some(permission => this.hasPermission(permission));
   }

@@ -47,6 +47,7 @@ export class AddUserComponent {
     });
   }
 
+  // ocitavanje permissionsa
   onCheckboxChange(event: any) {
     const perms: FormArray = this.userForm.get('permissions') as FormArray;
     if (event.checked) {
@@ -55,7 +56,7 @@ export class AddUserComponent {
       const index = perms.controls.findIndex(x => x.value === event.source.value);
       if (index !== -1) perms.removeAt(index);
     }
-    perms.markAsTouched();
+    perms.markAsTouched(); // prijavljena promena
   }
 
   onSubmit() {

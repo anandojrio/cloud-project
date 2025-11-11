@@ -54,26 +54,28 @@ export class EditUserComponent implements OnInit {
     this.userId = idParam ? +idParam : 0;
 
     this.userService.getById(this.userId).subscribe((user: User | undefined) => {
+
+      // nema tog usera?
       if (!user) {
-        this.snackBar.open('Корисник није пронађен!', 'Затвори', {
+        this.snackBar.open('User not found!', 'Close', {
           panelClass: 'snackbar-error',
           duration: 3000
         });
         this.router.navigate(['/users']);
         return;
       }
-      // Patch fields
+      // popuniti text fields
       this.userForm.patchValue({
         name: user.name,
         surname: user.surname,
         email: user.email
       });
-      // Patch permissions - checkboxe
+      // patch permissions (checkboxe)
       const permsFormArray = this.userForm.get('permissions') as FormArray;
       user.permissions.forEach((perm: Permission) => {
         permsFormArray.push(this.fb.control(perm));
       });
-      permsFormArray.markAsTouched();
+      permsFormArray.markAsTouched(); // promena prijavljena
     });
   }
 
@@ -82,6 +84,7 @@ export class EditUserComponent implements OnInit {
     return perms.value.includes(perm);
   }
 
+  // check i uncheck box
   onCheckboxChange(event: any) {
     const perms: FormArray = this.userForm.get('permissions') as FormArray;
     if (event.checked) {
@@ -95,7 +98,7 @@ export class EditUserComponent implements OnInit {
 
   onSubmit() {
     if (this.userForm.invalid) {
-      this.snackBar.open('Сва поља морају бити попуњена и бар једна дозвола изабрана.', 'Затвори', {
+      this.snackBar.open('All fields must be filled and at least one permission checked.', 'Close', {
         panelClass: 'snackbar-error',
         duration: 3000
       });
@@ -110,14 +113,14 @@ export class EditUserComponent implements OnInit {
 
     this.userService.update(updatedUser).subscribe({
       next: () => {
-        this.snackBar.open('Корисник је ажуриран!', 'Затвори', {
+        this.snackBar.open('User is updated!', 'Close', {
           panelClass: 'snackbar-success',
           duration: 2500
         });
         this.router.navigate(['/users']);
       },
       error: () => {
-        this.snackBar.open('Дошло је до грешке при чувању.', 'Затвори', {
+        this.snackBar.open('An error occured while saving.', 'Close', {
           panelClass: 'snackbar-error',
           duration: 3000
         });

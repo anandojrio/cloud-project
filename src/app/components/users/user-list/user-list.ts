@@ -34,15 +34,18 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // provera da li ulogovani korisnik ima dozvolu za edit
   canEditOrDelete(user: User): boolean {
     return this.authService.hasPermission(Permission.UPDATE_USER)
       || this.authService.hasPermission(Permission.DELETE_USER);
   }
 
+  // na klik redirect na edit page
   editUser(user: User) {
     this.router.navigate(['/users/edit', user.id]);
   }
 
+  // delete user za admina
   deleteUser(user: User) {
     if (confirm(`Delete user "${user.name} ${user.surname}"?`)) {
       this.userService.delete(user.id).subscribe({
@@ -52,6 +55,7 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  // redirect na new user
   addUser() {
     this.router.navigate(['/users/add']);
   }

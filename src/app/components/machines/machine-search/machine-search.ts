@@ -75,6 +75,7 @@ export class MachineSearchComponent implements OnInit {
     this.loadAll();
   }
 
+  // read all
   loadAll() {
     this.machineService.getAll().subscribe(machines => {
       this.dataSource.data = machines;
@@ -82,6 +83,7 @@ export class MachineSearchComponent implements OnInit {
     });
   }
 
+  //filter
   onSearch() {
     this.searching = true;
     const { name, statuses, from, to } = this.searchForm.value;
@@ -97,11 +99,13 @@ export class MachineSearchComponent implements OnInit {
     });
   }
 
+  // reset filter
   clear() {
     this.searchForm.reset({ name: '', statuses: [], from: null, to: null });
     this.loadAll();
   }
 
+  // new machine
   goToCreate() {
     this.router.navigate(['/machines/create']);
   }
@@ -110,6 +114,7 @@ export class MachineSearchComponent implements OnInit {
     return this.loadingMachines.has(machineId);
   }
 
+  // start --- ako je ugasena i korisnik ima dozvolu za tu akciju
   canStart(machine: Machine): boolean {
     return machine.status === MachineStatus.STOPPED &&
            this.authService.hasPermission(Permission.START_MACHINE);
@@ -129,6 +134,7 @@ export class MachineSearchComponent implements OnInit {
     return this.authService.hasPermission(Permission.DESTROY_MACHINE);
   }
 
+  //
   startMachine(machine: Machine) {
     this.loadingMachines.add(machine.id);
     this.machineService.start(machine.id).subscribe({
@@ -225,12 +231,12 @@ export class MachineSearchComponent implements OnInit {
     }
   }
 
+  // ako ima barem jednu dozvolu
   canSchedule(machine: Machine): boolean {
-  // Show schedule button only if user can do at least one action on this machine
-  return this.canStart(machine) || this.canStop(machine) || this.canRestart(machine) || this.canDestroy();
-}
+    return this.canStart(machine) || this.canStop(machine) || this.canRestart(machine) || this.canDestroy();
+  }
 
-
+  // otvaranje dialoga (forme)
   openScheduleDialog(machine: Machine): void {
   const dialogRef = this.dialog.open(ScheduleDialogComponent, {
     width: '400px',
@@ -239,7 +245,6 @@ export class MachineSearchComponent implements OnInit {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      // Handle the scheduled action
       console.log('Scheduled:', result);
       this.snackBar.open(
         `${result.action.toUpperCase()} scheduled for ${machine.name} on ${result.date.toLocaleDateString()} at ${result.time}`,
@@ -247,7 +252,7 @@ export class MachineSearchComponent implements OnInit {
         { duration: 3500, panelClass: 'snackbar-success' }
       );
 
-      // TODO: Save schedule to service/localStorage if needed
+      // TODO: sacuvati shcedule akciju na server ZA SAD NISTA SE NE DESAVA
     }
   });
 }

@@ -123,15 +123,15 @@
     </button>
 
     <!-- Schedule Button -->
-<button
-  mat-mini-fab
-  color="accent"
-  *ngIf="canSchedule(m)"
-  (click)="openScheduleDialog(m)"
-  [disabled]="isLoading(m.id)"
-  matTooltip="Schedule">
-  <mat-icon>schedule</mat-icon>
-</button>
+    <button
+      mat-mini-fab
+      color="accent"
+      *ngIf="canSchedule(m)"
+      (click)="openScheduleDialog(m)"
+      [disabled]="isLoading(m.id)"
+      matTooltip="Schedule">
+      <mat-icon>schedule</mat-icon>
+    </button>
 
 
   </mat-cell>

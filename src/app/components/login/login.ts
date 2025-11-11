@@ -86,7 +86,7 @@ export class LoginComponent {
 }
 
 
-  // Helper method to get form control errors
+  // Helper metoda za kontrolisane erore (required)
   getErrorMessage(controlName: string): string {
     const control = this.loginForm.get(controlName);
     if (control?.hasError('required')) {

@@ -4,6 +4,7 @@ import { delay } from 'rxjs/operators';
 import { Machine, MachineError, MachineStatus } from '../models/machine.model';
 import { AuthService } from './auth.service';
 
+// Populate machines sa errorima
 const DEFAULT_MACHINES: Machine[] = [
   {
     id: 1,
@@ -66,8 +67,7 @@ export class MachineService {
   private LS_KEY = 'machines';
 
   constructor(private authService: AuthService) {
-    // Seed localStorage sa demo masinama
-    // TEMPORARY: Force re-seed to get machines with errors
+    // Seed localStorage sa demo masinama -- MORALI OBRISEMO
   localStorage.removeItem(this.LS_KEY);
 
   if (!localStorage.getItem(this.LS_KEY)) {
@@ -75,6 +75,7 @@ export class MachineService {
   }
   }
 
+  // filter za prikazivanje korisnikovih masina
   private filterByOwner(machines: Machine[]): Machine[] {
     const currentUser = this.authService.currentUser;
     if (!currentUser) return [];
@@ -84,11 +85,13 @@ export class MachineService {
     return machines.filter(m => m.createdBy === currentUser.email);
   }
 
+  // GET sve masine za admina
   getAll(): Observable<Machine[]> {
     const machines: Machine[] = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
     return of(this.filterByOwner(machines).map(m => ({ ...m, createdDate: new Date(m.createdDate) })));
   }
 
+  // search
   search(name?: string, statuses?: MachineStatus[], dateFrom?: Date, dateTo?: Date): Observable<Machine[]> {
     let machines: Machine[] = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
     machines = this.filterByOwner(machines).map(m => ({ ...m, createdDate: new Date(m.createdDate) }));
@@ -108,10 +111,12 @@ export class MachineService {
     return of(machines);
   }
 
+  // simuliranje izvrsavanja 10-15 sekundi za akcije
   randomDelayMs(): number {
     return Math.floor(Math.random() * 5000) + 10000; // 10000 to 15000 ms
   }
 
+  // new machine
   create(machine: Omit<Machine, 'id'>): Observable<Machine> {
     const machines: Machine[] = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
     const newMachine: Machine = { ...machine, id: Date.now() };
@@ -184,15 +189,16 @@ export class MachineService {
   }
 
   getAllErrors(): Observable<any[]> {
-  // Step 1: Load all machines from localStorage
+  // load sve masine
   const allMachines: Machine[] = JSON.parse(localStorage.getItem(this.LS_KEY) || '[]');
   console.log('All machines:', allMachines);
 
+  // filter za ulogovanog korisnika
   const filteredMachines = this.filterByOwner(allMachines);
   console.log('Filtered machines:', filteredMachines);
   console.log('Current user:', this.authService.currentUser);
 
-  // Step 3: Extract all errors from the filtered machines
+  // KONACNI ERRORI ZA PRIKAZ ZA KORISNIKA
   const errors: any[] = [];
   filteredMachines.forEach(machine => {
     if (machine.errors && machine.errors.length > 0) {
@@ -206,7 +212,7 @@ export class MachineService {
     }
   });
 
-  // Step 4: Sort by newest first
+  // SORT
   errors.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
   return of(errors);
